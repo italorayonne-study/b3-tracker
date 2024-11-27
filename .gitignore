@@ -35,4 +35,8 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# sqlite database
+prisma/dev.db
+prisma/dev.db-journal
+
 app-example
