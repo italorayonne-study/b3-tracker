@@ -1,38 +1,35 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 type SearchInputProps = {
     onSearch: (value: string) => void
 }
+
+
 
 export default function SearchInput({ onSearch }: SearchInputProps) {
     const [searchText, setSearchText] = useState('');
 
     const handleSearch = () => {
         if (onSearch) {
-            onSearch(searchText);
+            onSearch(searchText); // Passa o texto para a função de busca
         }
     };
 
     return (
-        <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        >
-            <View style={styles.container}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite sua busca..."
-                    value={searchText}
-                    onChangeText={setSearchText}
-                    returnKeyType="search"
-                    onSubmitEditing={handleSearch}
-                />
-                <TouchableOpacity style={styles.button} onPress={handleSearch}>
-                    <Text style={styles.buttonText}>Buscar</Text>
-                </TouchableOpacity>
-            </View>
-        </KeyboardAvoidingView>
+        <View style={styles.container}>
+            <TextInput
+                style={styles.input}
+                placeholder="Digite sua busca..."
+                value={searchText}
+                onChangeText={setSearchText}
+                returnKeyType="search"
+                onSubmitEditing={handleSearch} // Busca ao pressionar Enter/Enter
+            />
+            <TouchableOpacity style={styles.button} onPress={handleSearch}>
+                <Text style={styles.buttonText}>Buscar</Text>
+            </TouchableOpacity>
+        </View>
     );
 }
 

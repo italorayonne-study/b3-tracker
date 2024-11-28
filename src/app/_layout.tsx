@@ -18,6 +18,7 @@ export default function RootLayout() {
     <Tabs.Screen
       name='search'
       options={{
+        tabBarHideOnKeyboard: true,
         headerShown: false,
         title: 'Buscar',
         tabBarIcon: ({ color, focused, size }) => {
