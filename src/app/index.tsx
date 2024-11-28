@@ -13,7 +13,8 @@ const initialStockData = [
   { name: 'MSFT', value: '$320.75' },
 ];
 
-const App = () => {
+
+export default function HomeScreen() {
   const [stockData, setStockData] = useState(initialStockData);
   const [selectedIcon, setSelectedIcon] = useState<null | 'favorites' | 'search'>(null);
 
@@ -97,7 +98,7 @@ const App = () => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -197,5 +198,3 @@ const styles = StyleSheet.create({
     width: screenWidth * 1,
   },
 });
-
-export default App;
