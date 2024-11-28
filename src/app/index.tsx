@@ -61,37 +61,6 @@ export default function HomeScreen() {
         )}
       />
 
-      {/* Ícones de Navegação */}
-      <View style={styles.iconContainer}>
-        {/* Ícone de Favoritos */}
-        <TouchableOpacity
-          style={[
-            styles.iconWrapper,
-            selectedIcon === 'favorites' && styles.iconSelected, // Estilo ao ser selecionado
-          ]}
-          onPress={() => setSelectedIcon('favorites')}
-        >
-          <View style={styles.iconBox}>
-            <Ionicons name="star" size={100} color="#0056b3" />
-            <Text style={styles.iconText}>Favoritos</Text>
-          </View>
-        </TouchableOpacity>
-
-        {/* Ícone de Pesquisa */}
-        <TouchableOpacity
-          style={[
-            styles.iconWrapper,
-            selectedIcon === 'search' && styles.iconSelected, // Estilo ao ser selecionado
-          ]}
-          onPress={() => setSelectedIcon('search')}
-        >
-          <View style={styles.iconBox}>
-            <Ionicons name="search" size={100} color="#0056b3" />
-            <Text style={styles.iconText}>Procurar</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
       {/* Botão de Atualizar Dados */}
       <View style={styles.buttonContainer}>
         <Button title="Atualizar Dados" onPress={handleUpdate} />
