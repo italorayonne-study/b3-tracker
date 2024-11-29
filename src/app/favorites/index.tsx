@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import { View, TextInput, FlatList, TouchableOpacity, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 
+// export default function DetailsScreen() {
+//   return (
+//       <View className="flex-1 items-center justify-center">
+//           <Link href={"/details/quote-example"}>Go to Details</Link>
+//       </View>
+//   )
+// }
+
 interface Acao {
   id: string;
   nome: string;
