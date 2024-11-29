@@ -16,8 +16,7 @@ export default function Layout() {
                     alignItems: "center",
                     justifyContent: "center",
                 },
-                
-                tabBarLabel: () => null
+                tabBarLabel: () => null,
             }}
         >
             <Tabs.Screen
@@ -25,9 +24,12 @@ export default function Layout() {
                 options={{
                     title: "Home",
                     headerShown: false,
-                    tabBarIcon: ({ color }) => (
-                        <AntDesign name="home" size={28} color={color} />
-                    ),
+                    tabBarIcon: ({ focused }) => {
+
+                        if (focused) return <AntDesign name="home" size={28} color={"#e57748"} />
+
+                        return <AntDesign name="home" size={28} color={"gray"} />
+                    },
                 }}
             />
 
@@ -36,9 +38,12 @@ export default function Layout() {
                 options={{
                     title: "Pesquisa",
                     headerShown: true,
-                    tabBarIcon: () => (
-                        <AntDesign name="search1" size={28} />
-                    )
+                    tabBarIcon: ({ focused }) => {
+
+                        if (focused) return <AntDesign name="search1" size={28} color={"#e57748"} />
+
+                        return <AntDesign name="search1" size={28} color={"gray"} />
+                    }
                 }}
             />
 
@@ -47,9 +52,12 @@ export default function Layout() {
                 options={{
                     title: "Favoritos",
                     headerShown: true,
-                    tabBarIcon: () => (
-                        <AntDesign name="staro" size={28} />
-                    )
+                    tabBarIcon: ({ focused }) => {
+
+                        if (focused) return <AntDesign name="staro" size={28} color={"#e57748"} />
+
+                        return <AntDesign name="staro" size={28} color={"gray"} />
+                    }
                 }}
             />
         </Tabs>
