@@ -8,7 +8,7 @@ interface Acao {
   simbolo: string;
 }
 
-// Falta adicionar o resultado da requisição da API na lista 'Acao[]'
+// Falta adicionar nessa lista, as ações favoritas pelo usuário na tela de "Detalhes" da ação pesquisada 
 const acoesFavoritas: Acao[] = [
   { id: '1', nome: 'Apple Inc.', simbolo: 'AAPL' },
   { id: '2', nome: 'Amazon.com, Inc.', simbolo: 'AMZN' },
