@@ -28,8 +28,8 @@ const TelaFavoritos = () => {
       onPress={() => router.push(`/`)} // `/DetalhesAcao/${item.id}`
       className="p-4 border-b border-gray-200"
     >
-      <Text className="text-lg font-semibold">{item.nome}</Text>
-      <Text className="text-gray-500">{item.simbolo}</Text>
+      <Text className="text-lg text-gray-700 font-semibold">{item.nome}</Text>
+      <Text className="text-blue-300">{item.simbolo}</Text>
     </TouchableOpacity>
   );
 
@@ -41,7 +41,7 @@ const TelaFavoritos = () => {
           placeholder="Pesquisar nos favoritos"
           value={textoPesquisa}
           onChangeText={setTextoPesquisa}
-          className="border border-gray-300 rounded p-4"
+          className="border border-blue-300 rounded p-4 text-lg text-gray-400"
         />
       </View>
       {/* Lista de Ações Favoritas */}
@@ -49,6 +49,7 @@ const TelaFavoritos = () => {
         data={acoesFiltradas}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
+        className='p-3 style'
       />
     </View>
   );
