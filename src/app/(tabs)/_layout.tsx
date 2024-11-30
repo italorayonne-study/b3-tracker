@@ -1,6 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
-import { router, Tabs } from "expo-router";
-import { useState } from "react";
+import { router, Tabs, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { TextInput, View } from "react-native";
 
 export default function Layout() {
@@ -51,7 +51,7 @@ export default function Layout() {
                     ),
                     headerRight: () => {
                         const [search, setSearch] = useState('')
-                        
+
                         function handleSearch() {
 
                             if (search.trim() !== '')
@@ -59,6 +59,13 @@ export default function Layout() {
                                     searchText: search
                                 })
                         }
+
+                        useFocusEffect(
+                            useCallback(() => setSearch('')
+                                , [])
+                        )
+
+
 
                         return (
 

@@ -1,10 +1,16 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useCallback } from 'react';
 import { Text, View } from 'react-native';
 
 export default function Search() {
-
     const { searchText } = useLocalSearchParams()
 
+    useFocusEffect(
+        useCallback(() => router.setParams({
+            searchText: ''
+        })
+            , [])
+    )
     return (
         <View className='flex-1 items-center justify-center p-5 bg-white '>
             <Text>Texto de Busca: {searchText}</Text>
