@@ -1,9 +1,13 @@
-import { Text, View } from "react-native";
+import { useLocalSearchParams } from 'expo-router';
+import { Text, View } from 'react-native';
 
-export default function SearchScreen() {
+export default function Search() {
+
+    const { searchText } = useLocalSearchParams()
+
     return (
-        <View className="flex-1 justify-center items-center p-5">
-            <Text>Tela de Pesquisa</Text>
+        <View className='flex-1 items-center justify-center p-5 bg-white '>
+            <Text>Texto de Busca: {searchText}</Text>
         </View>
-    )
+    );
 }

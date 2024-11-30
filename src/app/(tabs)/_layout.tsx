@@ -1,5 +1,7 @@
 import { AntDesign } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { router, Tabs } from "expo-router";
+import { useState } from "react";
+import { TextInput, View } from "react-native";
 
 export default function Layout() {
     return (
@@ -17,6 +19,8 @@ export default function Layout() {
                     justifyContent: "center",
                 },
                 tabBarLabel: () => null,
+                tabBarActiveTintColor: "#e57748",
+                tabBarHideOnKeyboard: true
             }}
         >
             <Tabs.Screen
@@ -24,25 +28,52 @@ export default function Layout() {
                 options={{
                     title: "Home",
                     headerShown: false,
-                    tabBarIcon: ({ focused }) => {
-
-                        if (focused) return <AntDesign name="home" size={28} color={"#e57748"} />
-
-                        return <AntDesign name="home" size={28} color={"gray"} />
-                    },
+                    tabBarIcon: ({ color }) => (
+                        <AntDesign name="home" size={28} color={color} />
+                    ),
                 }}
             />
 
             <Tabs.Screen
                 name="search"
                 options={{
-                    title: "Pesquisa",
+                    headerTitleContainerStyle: {
+                        display: "none"
+                    },
                     headerShown: true,
-                    tabBarIcon: ({ focused }) => {
+                    headerStyle: {
+                        borderBottomWidth: 0,
+                        shadowColor: "transparent",
+                    },
 
-                        if (focused) return <AntDesign name="search1" size={28} color={"#e57748"} />
+                    tabBarIcon: ({ color }) => (
+                        <AntDesign name="search1" size={28} color={color} />
+                    ),
+                    headerRight: () => {
+                        const [search, setSearch] = useState('')
+                        
+                        function handleSearch() {
 
-                        return <AntDesign name="search1" size={28} color={"gray"} />
+                            if (search.trim() !== '')
+                                router.setParams({
+                                    searchText: search
+                                })
+                        }
+
+                        return (
+
+                            <View className='w-4/5 m-auto flex-row border border-gray-500 h-14 rounded-xl items-center justify-center gap-2 px-4 bg-transparent'>
+                                <AntDesign name='search1' size={24} color="#64748b" />
+
+                                <TextInput
+                                    placeholder="Busca"
+                                    className='w-full h-10 flex-1 bg-transparent'
+                                    value={search}
+                                    onChangeText={setSearch}
+                                    onSubmitEditing={handleSearch}
+                                />
+                            </View>
+                        )
                     }
                 }}
             />
@@ -52,12 +83,9 @@ export default function Layout() {
                 options={{
                     title: "Favoritos",
                     headerShown: true,
-                    tabBarIcon: ({ focused }) => {
-
-                        if (focused) return <AntDesign name="staro" size={28} color={"#e57748"} />
-
-                        return <AntDesign name="staro" size={28} color={"gray"} />
-                    }
+                    tabBarIcon: ({ color }) => (
+                        <AntDesign name="staro" size={28} color={color} />
+                    )
                 }}
             />
         </Tabs>
