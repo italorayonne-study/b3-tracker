@@ -86,7 +86,6 @@ export default function Layout() {
             <Tabs.Screen
                 name="favorites"
                 options={{
-                    title: "Favoritos",
                     headerShown: false,
                     tabBarIcon: ({ color }) => (
                         <AntDesign name="staro" size={28} color={color} />
