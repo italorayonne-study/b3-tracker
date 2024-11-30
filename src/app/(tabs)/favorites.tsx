@@ -1,72 +1,5 @@
-// import React, { useState } from 'react';
-// import { View, TextInput, FlatList, TouchableOpacity, Text } from 'react-native';
-// import { useRouter } from 'expo-router';
-
-// // export default function DetailsScreen() {
-// //   return (
-// //       <View className="flex-1 items-center justify-center">
-// //           <Link href={"/details/quote-example"}>Go to Details</Link>
-// //       </View>
-// //   )
-// // }
-
-// interface Acao {
-//   id: string;
-//   nome: string;
-//   simbolo: string;
-// }
-
-// // Falta adicionar nessa lista, as ações favoritas pelo usuário na tela de "Detalhes" da ação pesquisada 
-// const acoesFavoritas: Acao[] = [
-//   { id: '1', nome: 'Apple Inc.', simbolo: 'AAPL' },
-//   { id: '2', nome: 'Amazon.com, Inc.', simbolo: 'AMZN' },
-// ];
-
-// const TelaFavoritos = () => {
-//   const [textoPesquisa, setTextoPesquisa] = useState('');
-//   const router = useRouter();
-
-//   const acoesFiltradas = acoesFavoritas.filter((acao) =>
-//     acao.nome.toLowerCase().includes(textoPesquisa.toLowerCase())
-//   );
-
-//   // Aqui falta colocar a rota correta para o detalhe da ação escolhida !
-//   const renderItem = ({ item }: { item: Acao }) => (
-//     <TouchableOpacity
-//       onPress={() => router.push(`/`)} // `/DetalhesAcao/${item.id}`
-//       className="p-4 border-b border-gray-200"
-//     >
-//       <Text className="text-lg text-[#1b38a9] font-semibold">{item.nome}</Text>
-//       <Text className="text-gray-700">{item.simbolo}</Text>
-//     </TouchableOpacity>
-//   );
-
-//   return (
-//     <View className="flex-1 bg-white">
-//       {/* Barra de Pesquisa */}
-//       <View className="p-4">
-//         <TextInput
-//           placeholder="Pesquisar nos favoritos"
-//           value={textoPesquisa}
-//           onChangeText={setTextoPesquisa}
-//           className="border border-[#e57748] rounded p-4 text-lg text-gray-400"
-//         />
-//       </View>
-//       {/* Lista de Ações Favoritas */}
-//       <FlatList
-//         data={acoesFiltradas}
-//         keyExtractor={(item) => item.id}
-//         renderItem={renderItem}
-//         className='p-3'
-//       />
-//     </View>
-//   );
-// };
-
-// export default TelaFavoritos;
-
 import React, { useState } from 'react';
-import { View, TextInput, FlatList, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, TextInput, FlatList, TouchableOpacity, Text, Modal } from 'react-native';
 import { useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -76,14 +9,15 @@ interface Acao {
   simbolo: string;
 }
 
-const TelaFavoritos = () => {
+const TelaFavoritos: React.FC = () => {
   const [acoesFavoritas, setAcoesFavoritas] = useState<Acao[]>([
     { id: '1', nome: 'Apple Inc.', simbolo: 'AAPL' },
     { id: '2', nome: 'Amazon.com, Inc.', simbolo: 'AMZN' },
   ]);
-  const [textoPesquisa, setTextoPesquisa] = useState('');
-  const [modoSelecao, setModoSelecao] = useState(false);
+  const [textoPesquisa, setTextoPesquisa] = useState<string>('');
+  const [modoSelecao, setModoSelecao] = useState<boolean>(false);
   const [itensSelecionados, setItensSelecionados] = useState<string[]>([]);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const router = useRouter();
 
   const acoesFiltradas = acoesFavoritas.filter((acao) =>
@@ -91,13 +25,13 @@ const TelaFavoritos = () => {
   );
 
   const handleDesfavoritar = (id: string) => {
-    setAcoesFavoritas(prevAcoes => prevAcoes.filter(acao => acao.id !== id));
+    setAcoesFavoritas((prevAcoes) => prevAcoes.filter((acao) => acao.id !== id));
   };
 
   const handleSelecionarItem = (id: string) => {
-    setItensSelecionados(prevSelecionados => {
+    setItensSelecionados((prevSelecionados) => {
       if (prevSelecionados.includes(id)) {
-        return prevSelecionados.filter(itemId => itemId !== id);
+        return prevSelecionados.filter((itemId) => itemId !== id);
       } else {
         return [...prevSelecionados, id];
       }
@@ -108,32 +42,25 @@ const TelaFavoritos = () => {
     if (itensSelecionados.length === acoesFiltradas.length) {
       setItensSelecionados([]);
     } else {
-      setItensSelecionados(acoesFiltradas.map(item => item.id));
+      setItensSelecionados(acoesFiltradas.map((item) => item.id));
     }
   };
 
   const handleExcluirSelecionados = () => {
     if (itensSelecionados.length === 0) {
-      Alert.alert('Aviso', 'Nenhum item selecionado.');
+      // Se nenhum item estiver selecionado, não fazemos nada
       return;
     }
-    Alert.alert(
-      'Confirmação',
-      'Essa ação irá excluir os itens selecionados da lista de favoritos. Quer continuar?',
-      [
-        { text: 'NÃO', onPress: () => null, style: 'cancel' },
-        {
-          text: 'SIM',
-          onPress: () => {
-            setAcoesFavoritas(prevAcoes =>
-              prevAcoes.filter(acao => !itensSelecionados.includes(acao.id))
-            );
-            setItensSelecionados([]);
-            setModoSelecao(false);
-          },
-        },
-      ]
+    setModalVisible(true);
+  };
+
+  const confirmarExclusao = () => {
+    setAcoesFavoritas((prevAcoes) =>
+      prevAcoes.filter((acao) => !itensSelecionados.includes(acao.id))
     );
+    setItensSelecionados([]);
+    setModoSelecao(false);
+    setModalVisible(false);
   };
 
   const renderItem = ({ item }: { item: Acao }) => (
@@ -145,22 +72,18 @@ const TelaFavoritos = () => {
           router.push(`/`); // Substitua `/` pela rota correta
         }
       }}
-      className="p-4 border-b border-gray-200 flex-row justify-between items-center"
+      style={{ padding: 16, borderBottomWidth: 1, borderColor: '#ccc', flexDirection: 'row', alignItems: 'center' }}
     >
       {modoSelecao && (
         <Icon
-          name={
-            itensSelecionados.includes(item.id)
-              ? 'check-box'
-              : 'check-box-outline-blank'
-          }
+          name={itensSelecionados.includes(item.id) ? 'check-box' : 'check-box-outline-blank'}
           size={24}
           color="#e57748"
         />
       )}
       <View style={{ flex: 1, marginLeft: modoSelecao ? 10 : 0 }}>
-        <Text className="text-lg text-[#1b38a9] font-semibold">{item.nome}</Text>
-        <Text className="text-gray-700">{item.simbolo}</Text>
+        <Text style={{ fontSize: 18, color: '#1b38a9', fontWeight: 'bold' }}>{item.nome}</Text>
+        <Text style={{ color: '#555' }}>{item.simbolo}</Text>
       </View>
       {!modoSelecao && (
         <TouchableOpacity onPress={() => handleDesfavoritar(item.id)}>
@@ -171,56 +94,47 @@ const TelaFavoritos = () => {
   );
 
   return (
-    <View className="flex-1 bg-white">
-      {/* Cabeçalho */}
-      <View className="flex-row justify-center items-center p-4">
-        <Text className="text-xl font-bold">Favoritos</Text>
-      </View>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       {/* Barra de Pesquisa */}
-      <View className="p-4">
+      <View style={{ paddingHorizontal: 16, paddingVertical: 16 }}>
         <TextInput
           placeholder="Pesquisar nos favoritos"
           value={textoPesquisa}
           onChangeText={setTextoPesquisa}
-          className="border border-[#e57748] rounded p-4 text-lg text-gray-400"
+          style={{
+            borderWidth: 1,
+            borderColor: '#e57748',
+            borderRadius: 8,
+            padding: 12,
+            fontSize: 16,
+            color: '#333',
+          }}
         />
       </View>
       {/* Botão de Selecionar */}
-      <View className="p-4">
-        <TouchableOpacity
-          onPress={() => setModoSelecao(!modoSelecao)}
-          className="flex-row items-center"
-        >
+      <View style={{ padding: 16 }}>
+        <TouchableOpacity onPress={() => setModoSelecao(!modoSelecao)} style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Icon name="select-all" size={24} color="#e57748" />
-          <Text style={{ color: '#e57748', marginLeft: 8 }}>
+          <Text style={{ color: '#e57748', marginLeft: 8, fontSize: 16 }}>
             {modoSelecao ? 'Cancelar' : 'Selecionar'}
           </Text>
         </TouchableOpacity>
       </View>
       {/* Botões de Selecionar Todos e Excluir */}
       {modoSelecao && (
-        <View className="flex-row justify-between items-center p-4">
-          <TouchableOpacity
-            onPress={handleSelecionarTodos}
-            className="flex-row items-center"
-          >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16 }}>
+          <TouchableOpacity onPress={handleSelecionarTodos} style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Icon
-              name={
-                itensSelecionados.length === acoesFiltradas.length
-                  ? 'check-box'
-                  : 'check-box-outline-blank'
-              }
+              name={itensSelecionados.length === acoesFiltradas.length ? 'check-box' : 'check-box-outline-blank'}
               size={24}
               color="#e57748"
             />
-            <Text style={{ color: '#e57748', marginLeft: 8 }}>
-              {itensSelecionados.length === acoesFiltradas.length
-                ? 'Desmarcar Todos'
-                : 'Selecionar Todos'}
+            <Text style={{ color: '#e57748', marginLeft: 8, fontSize: 16 }}>
+              {itensSelecionados.length === acoesFiltradas.length ? 'Desmarcar Todos' : 'Selecionar Todos'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleExcluirSelecionados}>
-            <Text style={{ color: 'red' }}>Excluir Selecionados</Text>
+            <Text style={{ color: 'red', fontSize: 16 }}>Excluir Selecionados</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -229,9 +143,45 @@ const TelaFavoritos = () => {
         data={acoesFiltradas}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
-        className="p-3"
         extraData={itensSelecionados}
       />
+      {/* Modal de Confirmação */}
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <View
+            style={{
+              width: '80%',
+              backgroundColor: 'white',
+              borderRadius: 10,
+              padding: 20,
+            }}
+          >
+            <Text style={{ fontSize: 18, marginBottom: 20 }}>
+              Essa ação irá excluir os itens selecionados da lista de favoritos. Quer continuar?
+            </Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginRight: 20 }}>
+                <Text style={{ color: '#e57748', fontSize: 16 }}>NÃO</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={confirmarExclusao}>
+                <Text style={{ color: 'red', fontSize: 16 }}>SIM</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
