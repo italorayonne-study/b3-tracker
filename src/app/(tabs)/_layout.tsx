@@ -65,8 +65,6 @@ export default function Layout() {
                                 , [])
                         )
 
-
-
                         return (
 
                             <View className='w-4/5 m-auto flex-row border border-gray-500 h-14 rounded-xl items-center justify-center gap-2 px-4 bg-transparent'>
@@ -89,7 +87,7 @@ export default function Layout() {
                 name="favorites"
                 options={{
                     title: "Favoritos",
-                    headerShown: true,
+                    headerShown: false,
                     tabBarIcon: ({ color }) => (
                         <AntDesign name="staro" size={28} color={color} />
                     )
