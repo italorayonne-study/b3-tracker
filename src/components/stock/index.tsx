@@ -1,4 +1,5 @@
 import { Stocks } from '@/src/types'
+import { AntDesign } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { Pressable, Text, View } from 'react-native'
@@ -14,7 +15,7 @@ export function CardHorizontalStock({ stock }: { stock: Stocks }) {
                 close: stock.close,
                 change: stock.change,
                 sector: stock.sector,
-                volume:stock.volume,
+                volume: stock.volume,
                 market_cap: stock.market_cap
             }
         })}>
@@ -30,12 +31,18 @@ export function CardHorizontalStock({ stock }: { stock: Stocks }) {
                     }}
                 />
             </View>
-            <View>
-                {/* <AntDesign name='USB' size={24} /> */}
-                <Text className='mt-5'>{stock.name}</Text>
+            <View className='flex flex-row bg-neutral-900/90 items-center justify-start gap-2'>
+
+                <AntDesign name={`${stock.change < 0 ? 'caretdown' : 'caretup'}`} size={20} color={`${stock.change < 0 ? 'red' : 'green'}`} />
+
+                <Text className={`text-sm text-center ml-3 ${stock.change < 0 ? 'text-red-500' :  'text-green-500'}`}>
+                    {
+                        stock.change.toFixed(2)
+
+                    }
+                </Text>
             </View>
 
         </Pressable>
     )
-
 }

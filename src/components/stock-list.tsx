@@ -1,7 +1,7 @@
 import { CardHorizontalStock } from '@/src/components/stock';
 import { Stocks } from '@/src/types';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 
 export function StockList() {
     const [isLoading, setLoading] = useState(true);
@@ -9,17 +9,15 @@ export function StockList() {
 
     async function getStocks() {
         try {
-            const response = await fetch('https://brapi.dev/api/quote/list?limit=5', {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}quote/list?limit=15`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': 'Bearer popeYQfXMTauF2XpUzobK4d'
+                    'Authorization': `Bearer ${process.env.EXPO_PUBLIC_TOKEN_KEY}`
                 }
             })
 
             const result = await response.json()
             setStocks(result["stocks"])
-
-            console.log(stocks)
 
         } catch (error) {
             console.error(error)
@@ -32,22 +30,26 @@ export function StockList() {
         getStocks()
     }, [])
 
-
     return (
-        <View className='flex-1 justify-center items-center p-5 bg-white'>
+        <View className='justify-center items-center flex-1'>
 
             {
                 isLoading ? (
                     <ActivityIndicator size={"large"} color={"gray"} />
                 ) : (
-                    <FlatList
-                        data={stocks}
-                        renderItem={({ item }) => <CardHorizontalStock stock={item} />}
-                        horizontal={true}
-                        contentContainerStyle={{ gap: 14, paddingLeft: 16, paddingRight: 16 }}
-                        showsHorizontalScrollIndicator={false}
 
-                    />
+                    stocks.length !== 0 ?
+
+                        <FlatList
+                            data={stocks}
+                            renderItem={({ item }) => <CardHorizontalStock stock={item} />}
+                            horizontal={true}
+                            contentContainerStyle={{ gap: 14 }}
+                            showsHorizontalScrollIndicator={false}
+
+                        /> : <View className='flex-row justify-center items-center'>
+                            <Text className='font-semibold text-center w-full'>Sem favoritos</Text>
+                        </View>
                 )
             }
 

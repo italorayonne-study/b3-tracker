@@ -35,7 +35,7 @@ export default function StockDetailsScreen() {
             <View className="mt-10 flex-1">
                 <Text className="text-4xl font-bold">R$ {close}</Text>
                 <Text className={`text-lg ${parseFloat(change.toString()) < 0 ? 'text-red-500' : 'text-green-500'}`}>
-                    {parseFloat(change.toString()) > 0 ? `+${parseFloat(change.toString())}%` : `${parseFloat(change.toString())}%`}
+                    {parseFloat(change.toString()) > 0 ? `+${parseFloat(change.toString()).toFixed(2)}%` : `${parseFloat(change.toString()).toFixed(2)}%`}
                 </Text>
             </View>
 
@@ -50,11 +50,11 @@ export default function StockDetailsScreen() {
                 </View>
                 <View className="flex-row justify-between mt-3">
                     <Text className="text-1xl text-gray-500">Capitalização de Mercado</Text>
-                    <Text className="text-lg font-semibold">R$ {market_cap}</Text>
+                    <Text className="text-lg font-semibold">R$ {parseFloat(market_cap?.toString()).toFixed(2)}</Text>
                 </View>
             </View>
 
-            <View className="p-4">
+            <View className="p-4 mt-5">
                 <TouchableOpacity
                     className="flex-row items-center justify-center bg-[#E57748] px-6 py-3 rounded-lg"
                     onPress={() => { /* Lógica para favoritar */ }}

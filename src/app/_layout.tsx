@@ -18,14 +18,16 @@ export default function RootLayout() {
       <Stack.Screen
         name="details/[quote]" options={{
           headerShown: true,
-          title: "Detalhes"
+          title: "Detalhes",
+          headerShadowVisible: false
         }}
       />
 
       <Stack.Screen
         name="stocks/index" options={{
           headerShown: true,
-          title: 'Mercado'
+          title: 'Mercado',
+          headerShadowVisible: false
         }}
 
       />

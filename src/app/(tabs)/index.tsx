@@ -27,8 +27,6 @@ export default function HomeScreen() {
             <View className="flex-1 justify-center items-center" >
                 <TouchableOpacity
                     className="flex-row items-center bg-[#E57748] px-6 py-3 rounded-lg"
-                    // TODO: navegar para a página principal
-
                     onPress={() => router.push("/stocks")}
                 >
                     <AntDesign name="arrowright" size={20} color="white" className="mr-3" />
