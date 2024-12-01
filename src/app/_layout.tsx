@@ -21,6 +21,14 @@ export default function RootLayout() {
           title: "Detalhes"
         }}
       />
+
+      <Stack.Screen
+        name="stocks/index" options={{
+          headerShown: true,
+          title: 'Mercado'
+        }}
+
+      />
     </Stack>
   )
 }

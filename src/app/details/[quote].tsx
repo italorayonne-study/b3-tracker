@@ -1,83 +1,56 @@
 import { AntDesign } from "@expo/vector-icons";
+import { Image } from 'expo-image';
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
-
-type Stocks = {
-    stock: string;
-    name: string;
-    close: number;
-    change: number;
-    volume: number;
-    market_cap: number;
-    logo: string;
-    sector: string;
-    type: string;
-}
+import { Text, TouchableOpacity, View } from "react-native";
 
 export default function StockDetailsScreen() {
-    const { quote } = useLocalSearchParams()
-
-    const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState<Stocks[]>([])
-
-    async function getStocks() {
-        try {
-            const response = await fetch('', {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer xyz'
-                }
-            })
-
-            const result = await response.json()
-            setData(result)
-
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        getStocks
-    }, [])
-
+    const {
+        quote,
+        name,
+        stock,
+        close,
+        change,
+        sector,
+        volume,
+        market_cap
+    } = useLocalSearchParams()
     return (
         <View className="flex-1 justify-between p-5 bg-white">
             <View className="flex flex-row">
                 <Image
-                    source={{ uri: "https://github.com/italorayone.png" }}
-                    width={75}
-                    height={75}
-                    className="rounded-2xl"
+                    source={{ uri: `${quote}` }}
+                    style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 16
+                    }}
+
                 />
                 <View className="ml-2 w-3/4">
-                    <Text className="text-3xl font-bold">Petróleo Brasileiro S.A.</Text>
-                    <Text className="text-lg text-gray-500">{quote}</Text>
+                    <Text className="text-3xl font-bold">{name}</Text>
+                    <Text className="text-lg text-gray-500">{stock}</Text>
                 </View>
             </View>
 
             <View className="mt-10 flex-1">
-                <Text className="text-4xl font-bold">R$ 58,68</Text>
-                <Text className={`text-lg ${1.37 < 0 ? 'text-red-500' : 'text-green-500'}`}>
-                    {1.37 > 0 ? `+${1.37}%` : `${1.37}%`}
+                <Text className="text-4xl font-bold">R$ {close}</Text>
+                <Text className={`text-lg ${parseFloat(change.toString()) < 0 ? 'text-red-500' : 'text-green-500'}`}>
+                    {parseFloat(change.toString()) > 0 ? `+${parseFloat(change.toString())}%` : `${parseFloat(change.toString())}%`}
                 </Text>
             </View>
 
             <View className="mt-6">
                 <View className="flex-row justify-between">
                     <Text className="text-1xl text-gray-500">Setor</Text>
-                    <Text className="text-lg font-semibold">Energy Minerals</Text>
+                    <Text className="text-lg font-semibold">{sector}</Text>
                 </View>
                 <View className="flex-row justify-between mt-3">
                     <Text className="text-1xl text-gray-500">Volume</Text>
-                    <Text className="text-lg font-semibold">52.313.200</Text>
+                    <Text className="text-lg font-semibold">{volume}</Text>
                 </View>
                 <View className="flex-row justify-between mt-3">
                     <Text className="text-1xl text-gray-500">Capitalização de Mercado</Text>
-                    <Text className="text-lg font-semibold">R$ 1.013.530.585,57</Text>
+                    <Text className="text-lg font-semibold">R$ {market_cap}</Text>
                 </View>
             </View>
 

@@ -29,10 +29,7 @@ export default function HomeScreen() {
                     className="flex-row items-center bg-[#E57748] px-6 py-3 rounded-lg"
                     // TODO: navegar para a página principal
 
-                    onPress={() => router.navigate({
-                        pathname: "/details/[quote]",
-                        params: { quote: "PETRA4" }
-                    })}
+                    onPress={() => router.push("/stocks")}
                 >
                     <AntDesign name="arrowright" size={20} color="white" className="mr-3" />
                     <Text className="text-white text-lg font-bold">Comece agora</Text>
