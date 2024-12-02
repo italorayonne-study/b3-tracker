@@ -5,6 +5,7 @@ import { TextInput, View } from "react-native";
 
 export default function Layout() {
     return (
+
         <Tabs
             screenOptions={{
                 tabBarStyle: {

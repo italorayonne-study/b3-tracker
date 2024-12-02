@@ -1,27 +1,25 @@
-import React, { useState } from 'react';
-import { View, TextInput, FlatList, TouchableOpacity, Text, Modal } from 'react-native';
+
+import { QuoteDatabase } from '@/src/types';
 import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { FlatList, Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-interface Acao {
-  id: string;
-  nome: string;
-  simbolo: string;
-}
+export default function FavoritesScreen() {
 
-const TelaFavoritos: React.FC = () => {
-  const [acoesFavoritas, setAcoesFavoritas] = useState<Acao[]>([
-    { id: '1', nome: 'Apple Inc.', simbolo: 'AAPL' },
-    { id: '2', nome: 'Amazon.com, Inc.', simbolo: 'AMZN' },
-  ]);
+  const [acoesFavoritas, setAcoesFavoritas] = useState<QuoteDatabase[]>([
+    { id: '1', name: 'Apple Inc.', stock: 'AAPL' },
+    { id: '2', name: 'Amazon.com, Inc.', stock: 'AMZN' },]);
   const [textoPesquisa, setTextoPesquisa] = useState<string>('');
   const [modoSelecao, setModoSelecao] = useState<boolean>(false);
   const [itensSelecionados, setItensSelecionados] = useState<string[]>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const router = useRouter();
 
+
+
   const acoesFiltradas = acoesFavoritas.filter((acao) =>
-    acao.nome.toLowerCase().includes(textoPesquisa.toLowerCase())
+    acao.name.toLowerCase().includes(textoPesquisa.toLowerCase())
   );
 
   const handleDesfavoritar = (id: string) => {
@@ -63,7 +61,7 @@ const TelaFavoritos: React.FC = () => {
     setModalVisible(false);
   };
 
-  const renderItem = ({ item }: { item: Acao }) => (
+  const renderItem = ({ item }: { item: QuoteDatabase }) => (
     <TouchableOpacity
       onPress={() => {
         if (modoSelecao) {
@@ -82,8 +80,8 @@ const TelaFavoritos: React.FC = () => {
         />
       )}
       <View style={{ flex: 1, marginLeft: modoSelecao ? 10 : 0 }}>
-        <Text style={{ fontSize: 18, color: '#1b38a9', fontWeight: 'bold' }}>{item.nome}</Text>
-        <Text style={{ color: '#555' }}>{item.simbolo}</Text>
+        <Text style={{ fontSize: 18, color: '#1b38a9', fontWeight: 'bold' }}>{item.name}</Text>
+        <Text style={{ color: '#555' }}>{item.stock}</Text>
       </View>
       {!modoSelecao && (
         <TouchableOpacity onPress={() => handleDesfavoritar(item.id)}>
@@ -185,5 +183,3 @@ const TelaFavoritos: React.FC = () => {
     </View>
   );
 };
-
-export default TelaFavoritos;

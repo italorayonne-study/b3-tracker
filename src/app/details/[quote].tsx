@@ -14,6 +14,7 @@ export default function StockDetailsScreen() {
         volume,
         market_cap
     } = useLocalSearchParams()
+
     return (
         <View className="flex-1 justify-between p-5 bg-white">
             <View className="flex flex-row">
@@ -57,7 +58,7 @@ export default function StockDetailsScreen() {
             <View className="p-4 mt-5">
                 <TouchableOpacity
                     className="flex-row items-center justify-center bg-[#E57748] px-6 py-3 rounded-lg"
-                    onPress={() => { /* Lógica para favoritar */ }}
+                    // onPress={() => create}
                 >
                     <Text className="text-white text-lg font-bold mr-3">Favoritar</Text>
                     <AntDesign name="staro" size={24} color="white" />

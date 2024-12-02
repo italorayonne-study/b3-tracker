@@ -9,13 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ceub.b3-tracker"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/b3-tracker-logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ceub.b3_tracker"
     },
     "web": {
       "bundler": "metro",
@@ -32,10 +34,20 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-sqlite",
+      "@prisma/react-native"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "6991bd7b-6929-4085-9d9e-d5338c3ac95d"
+      }
     }
   }
 }

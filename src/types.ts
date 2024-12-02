@@ -9,3 +9,10 @@ export type Stocks = {
     sector: string;
     type: string;
 }
+
+export interface QuoteDatabase {
+    id: string;
+    stock: string
+    name: string;
+    // logo: string
+}
