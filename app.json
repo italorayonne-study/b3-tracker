@@ -35,8 +35,7 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-sqlite",
-      "@prisma/react-native"
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true
