@@ -14,5 +14,5 @@ export interface QuoteDatabase {
     id: string;
     stock: string
     name: string;
-    // logo: string
+    logo: string
 }

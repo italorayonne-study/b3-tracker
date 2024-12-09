@@ -1,11 +1,12 @@
 import { StockList } from "@/src/components/stock-list";
+import { useQuoteRepository } from "@/src/hooks/useQuoteRepository";
 import { Stocks } from "@/src/types";
 import { highlightStocks } from "@/src/utils";
 import { AntDesign } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Pressable, Text, TouchableOpacity, View } from "react-native";
 
 export default function StocksScreem() {
     const [isLoading, setLoading] = useState(true);
@@ -47,6 +48,16 @@ export default function StocksScreem() {
             <Text className="text-xl font-semibold mb-4">Títulos Favoritados</Text>
             <View className="h-36">
                 <StockList />
+
+                <TouchableOpacity
+                    className="flex-row items-center justify-center bg-[#E57748] px-6 py-3 rounded-lg"
+                    onPress={async () => useQuoteRepository().remove()}
+                >
+                    <Text className="text-white text-lg font-bold mr-3">Remover todos</Text>
+                    <AntDesign name="staro" size={24} color="white" />
+                </TouchableOpacity>
+
+
             </View>
 
             <Text className="text-xl font-semibold mt-10 mb-5">Destaques</Text>

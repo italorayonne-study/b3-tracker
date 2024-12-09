@@ -1,23 +1,20 @@
-import { CardHorizontalStock } from '@/src/components/stock';
-import { Stocks } from '@/src/types';
+import { useQuoteRepository } from '@/src/hooks/useQuoteRepository';
+import { QuoteDatabase } from '@/src/types';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 
 export function StockList() {
     const [isLoading, setLoading] = useState(true);
-    const [stocks, setStocks] = useState<Stocks[]>([])
+    const [stocks, setStocks] = useState<QuoteDatabase[]>([])
+
+    const quoteRepository = useQuoteRepository()
 
     async function getStocks() {
         try {
-            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}quote/list?limit=15`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${process.env.EXPO_PUBLIC_TOKEN_KEY}`
-                }
-            })
+            const response = await quoteRepository.findAll();
 
-            const result = await response.json()
-            setStocks(result["stocks"])
+            const result = response
+            setStocks(result ?? [])
 
         } catch (error) {
             console.error(error)
@@ -28,7 +25,7 @@ export function StockList() {
 
     useEffect(() => {
         getStocks()
-    }, [])
+    }, [stocks])
 
     return (
         <View className='justify-center items-center flex-1'>
@@ -42,7 +39,9 @@ export function StockList() {
 
                         <FlatList
                             data={stocks}
-                            renderItem={({ item }) => <CardHorizontalStock stock={item} />}
+                            renderItem={({ item }) => (
+                                <Text>{item.name}</Text>
+                            )}
                             horizontal={true}
                             contentContainerStyle={{ gap: 14 }}
                             showsHorizontalScrollIndicator={false}

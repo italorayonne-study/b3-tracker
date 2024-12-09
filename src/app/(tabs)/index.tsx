@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function HomeScreen() {
+
     return (
         <View className="flex-1 items-center justify-center p-5 bg-white">
             <Image

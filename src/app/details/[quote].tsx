@@ -1,7 +1,8 @@
+import { useQuoteRepository } from "@/src/hooks/useQuoteRepository";
 import { AntDesign } from "@expo/vector-icons";
 import { Image } from 'expo-image';
 import { useLocalSearchParams } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 
 export default function StockDetailsScreen() {
     const {
@@ -14,6 +15,21 @@ export default function StockDetailsScreen() {
         volume,
         market_cap
     } = useLocalSearchParams()
+
+    const quoteRepository = useQuoteRepository();
+
+    async function create() {
+
+        Alert.alert("create function is called!")
+
+        await quoteRepository.create({
+            stock: stock as string,
+            name: name as string,
+            logo: quote as string
+        })
+
+        Alert.alert("Favorito salvo!")
+    }
 
     return (
         <View className="flex-1 justify-between p-5 bg-white">
@@ -58,7 +74,7 @@ export default function StockDetailsScreen() {
             <View className="p-4 mt-5">
                 <TouchableOpacity
                     className="flex-row items-center justify-center bg-[#E57748] px-6 py-3 rounded-lg"
-                    // onPress={() => create}
+                    onPress={() => create()}
                 >
                     <Text className="text-white text-lg font-bold mr-3">Favoritar</Text>
                     <AntDesign name="staro" size={24} color="white" />
