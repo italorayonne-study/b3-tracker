@@ -51,7 +51,7 @@ export function useQuoteRepository() {
     }
 
     async function remove() {
-        const statement = 'DELETE FRM quotes'
+        const statement = 'DELETE FROM quotes'
         try {
             const result = await database.execAsync(statement)
 

@@ -1,28 +1,19 @@
 import { StockList } from "@/src/components/stock-list";
 import { useQuoteRepository } from "@/src/hooks/useQuoteRepository";
 import { Stocks } from "@/src/types";
-import { highlightStocks } from "@/src/utils";
 import { AntDesign } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Pressable, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 
 export default function StocksScreem() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState<Stocks[]>([])
 
-    const highlightedStocks = highlightStocks(data)
-
-    const stocksWithHighlight = data.map(stock => ({
-        ...stock,
-        highlighted: highlightedStocks.some(highlight => highlight.stock === stock.stock)
-    }));
-
-
-    async function getStocks() {
+    const loadQuotes = async () => {
         try {
-            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}quote/list?limit=`, {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}quote/list?limit=10`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${process.env.EXPO_PUBLIC_TOKEN_KEY}`
@@ -40,7 +31,7 @@ export default function StocksScreem() {
     }
 
     useEffect(() => {
-        getStocks()
+        loadQuotes()
     }, [])
 
     return (
@@ -68,7 +59,7 @@ export default function StocksScreem() {
                     isLoading ? (<ActivityIndicator size={"large"} color={"gray"} />) : (
 
                         <FlatList
-                            data={stocksWithHighlight}
+                            data={data}
                             renderItem={({ item }) => (
                                 <TouchableOpacity
                                     className="flex flex-row bg-gray-100  flex-1 mb-5 w-auto h-28 justify-between items-center rounded-lg"
